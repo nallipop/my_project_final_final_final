@@ -95,11 +95,11 @@
                              alt="Card image cap">
                         <div class="card-body">
                             <div style="font-size: 15px" class="card-title"><b>${menu}</b></div>
+                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 20px;">선택</span><br>
                         </div>
                         <div class="card-footer">
                             <form name="form">
                                 <span style="font-size: 15px;"><b>${injectComma(price)} 원</b></span><br>
-                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;">선택</span><br>
                                 <button type="button" class="minus" onclick="minusClick('${menu.replace(/\s/g, '')}', ${price})">-</button>
                                 <input type="number" id="numBox${menu.replace(/\s/g, '')}" class="numBox" min="0" value="0" readonly="readonly"/>
                                 <button type="button" class="plus" onclick="plusClick('${menu.replace(/\s/g, '')}', ${price})">+</button>
@@ -115,11 +115,12 @@
             let tempHtml = `<div class="card">
                         <div class="card-body">
                             <div style="font-size: 15px" class="card-title"><b>${menu}</b></div>
+                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;">선택</span><br>
+
                         </div>
                         <div class="card-footer">
                             <form name="form">
                                 <span style="font-size: 15px;"><b>${injectComma(price)} 원</b></span><br>
-                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;">선택</span><br>
                                 <button type="button" class="minus" onclick="minusClick('${menu.replace(/\s/g, '')}', ${price})">-</button>
                                 <input type="number" id="numBox${menu.replace(/\s/g, '')}" class="numBox" min="0" value="0" readonly="readonly"/>
                                 <button type="button" class="plus" onclick="plusClick('${menu.replace(/\s/g, '')}', ${price})">+</button>
@@ -143,33 +144,34 @@
             showSelectedList()
         }
 
-        function minusClick(count, price) {
-            let num = $(`#numBox${count}`).val();
+        function minusClick(menu, price) {
+            let num = $(`#numBox${menu}`).val();
             let minusNum = Number(num) - 1;
 
             if (minusNum === 0) {
                 total -= price
-                $(`#numBox${count}`).val(0);
+                $(`#numBox${menu}`).val(0);
+                $(`input:checkbox[name=${menu}]`).prop("checked", false);
             } else if (minusNum < 0) {
-                $(`#numBox${count}`).val(0);
+                $(`#numBox${menu}`).val(0);
+                $(`input:checkbox[name=${menu}]`).prop("checked", false);
             } else {
-                $(`#numBox${count}`).val(minusNum);
+                $(`#numBox${menu}`).val(minusNum);
                 total -= price
             }
             $('#totalPrice').val(injectComma(total));
+            showSelectedList()
         }
 
 
         // 체크박스를 누를 때마다 특정 요소에 텍스트를 추가하는 함수
         function showSelectedList() {
             let selectedMenu = []
-
             $('input[type="checkbox"]:checked').each(function (index, element) {
                 let menuName = $(this).attr('name')
                 let amount = $(`#numBox${menuName}`).val()
                 selectedMenu.push($(this).val() + ' : ' + amount + '개')
             });
-
 
             $('#selectedMenuList').empty();
             for (let i = 0; i < selectedMenu.length; i++) {
