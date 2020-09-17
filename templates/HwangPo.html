@@ -32,8 +32,7 @@
 
 
     <!-- 구글폰트 -->
-    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
-    <script
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">    <script
             src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"></script>
@@ -87,6 +86,7 @@
             // so that it looks like real money!
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+
         function makeMenu(img, menu, description, price, tabNumber) {
             // 아래는 이미지가 포함된 불러오기 함수.
             let tempHtml = `<div class="card">
@@ -94,12 +94,12 @@
                              src="${img}"
                              alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">${menu}</h5>
+                            <div style="font-size: 15px" class="card-title"><b>${menu}</b></div>
                         </div>
                         <div class="card-footer">
                             <form name="form">
-                                <span style="font-size: 20px;">${injectComma(price)} 원</span><br>
-                                <input type="checkbox" name="fruit" value=${menu}> 메뉴선택<br>
+                                <span style="font-size: 15px;"><b>${injectComma(price)} 원</b></span><br>
+                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;">선택</span><br>
                                 <button type="button" class="minus" onclick="minusClick('${menu.replace(/\s/g, '')}', ${price})">-</button>
                                 <input type="number" id="numBox${menu.replace(/\s/g, '')}" class="numBox" min="0" value="0" readonly="readonly"/>
                                 <button type="button" class="plus" onclick="plusClick('${menu.replace(/\s/g, '')}', ${price})">+</button>
@@ -114,12 +114,12 @@
             // 아래는 이미지가 없는 불러오기 함수
             let tempHtml = `<div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">${menu}</h5>
+                            <div style="font-size: 15px" class="card-title"><b>${menu}</b></div>
                         </div>
                         <div class="card-footer">
                             <form name="form">
-                                <span style="font-size: 20px;">${injectComma(price)} 원</span><br>
-                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu} onclick="showSelectedList()"> 메뉴선택<br>
+                                <span style="font-size: 15px;"><b>${injectComma(price)} 원</b></span><br>
+                                <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;">선택</span><br>
                                 <button type="button" class="minus" onclick="minusClick('${menu.replace(/\s/g, '')}', ${price})">-</button>
                                 <input type="number" id="numBox${menu.replace(/\s/g, '')}" class="numBox" min="0" value="0" readonly="readonly"/>
                                 <button type="button" class="plus" onclick="plusClick('${menu.replace(/\s/g, '')}', ${price})">+</button>
@@ -130,13 +130,14 @@
             $(`#card-group-${tabNumber}`).append(tempHtml)
         }
 
+        //아래는 플러스 마이너스 버튼 누를때 합계란에 금액이 계산 되도록 하는 함수
         function plusClick(menu, price) {
             let num = $(`#numBox${menu}`).val();
             let plusNum = Number(num) + 1;
 
             $(`#numBox${menu}`).val(plusNum);
             total += price;
-            $('#totalPrice').val(total);
+            $('#totalPrice').val(injectComma(total));
 
             $(`input:checkbox[name=${menu}]`).prop("checked", true);
             showSelectedList()
@@ -155,52 +156,28 @@
                 $(`#numBox${count}`).val(minusNum);
                 total -= price
             }
-            $('#totalPrice').val(total);
+            $('#totalPrice').val(injectComma(total));
         }
 
-        function itemSum(frm) {
-            let sum = 0;
-            let count = frm.chkbox.length;
-            for (let i = 0; i < count; i++) {
-                if (frm.chkbox[i].checked == true) {
-                    sum += parseInt(frm.chkbox[i].value);
-                }
-            }
-            frm.total_sum.value = sum;
-        }
 
         // 체크박스를 누를 때마다 특정 요소에 텍스트를 추가하는 함수
         function showSelectedList() {
             let selectedMenu = []
 
-            $('input[type="checkbox"]:checked').each(function (index) {
-                selectedMenu.push($(this).val())
+            $('input[type="checkbox"]:checked').each(function (index, element) {
+                let menuName = $(this).attr('name')
+                let amount = $(`#numBox${menuName}`).val()
+                selectedMenu.push($(this).val() + ' : ' + amount + '개')
             });
 
+
             $('#selectedMenuList').empty();
-            for (let i =0; i < selectedMenu.length; i ++) {
+            for (let i = 0; i < selectedMenu.length; i++) {
                 $('#selectedMenuList').append(`<div>${selectedMenu[i]}</div>`)
             }
         }
-    </script>
-
-        <script>
-        function value_check() {
-            let select_obj = '';
-
-            $('input[type="checkbox"]:checked').each(function (index) {
-                if (index != 0) {
-                    select_obj += ',';
-                }
-                select_obj += $(this).val();
-            });
-
-            alert(select_obj);
-        }
 
     </script>
-
-
 
     <style type="text/css">
         html {
@@ -212,7 +189,7 @@
         }
 
         * {
-            font-family: "Do Hyeon", sans-serif;
+            font-family: 'Nanum Gothic', sans-serif;
         }
 
         h1,
@@ -242,47 +219,86 @@
             float: left;
         }
 
-        /* Style the links inside the list items */
+        /* tab list */
         .tab li a {
             display: inline-block;
             color: #000;
             text-align: center;
             text-decoration: none;
             padding: 14px 16px;
-            font-size: 17px;
+            font-size: 12px;
             transition: 0.3s;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+
         }
 
         /* Style the tab content */
         .tabcontent {
             display: none;
             background-color: #f5f5f7;
-            padding: 6px 12px;
+            padding: 12px 2px;
             color: black;
         }
 
         ul.tab li.current {
             background-color: #f5f5f7;
-            color: red;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+
         }
 
         .tabcontent.current {
             display: block;
         }
 
+        .card-footer {
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+            padding-left: 0.1px;
+            padding-right: 0.1px;
+            background-color: rgba(0, 0, 0, .03);
+            border-top: 1px solid rgba(0, 0, 0, .125);
+        }
+
+        .minus {
+            background-color: #f5f5f7;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+            width: 12px;
+
+        }
+
+        .plus {
+            background-color: #f5f5f7;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+            width: 12px;
+        }
+
         .numBox {
-            width: 40px;
+            width: 25px;
             border: 1px solid lightgrey;
-            font-size: 14px;
+            font-size: 12px;
             text-align: right;
         }
 
         .card {
             width: 46%;
-            margin-left: 6px;
-            margin-right: 6px;
-            margin-bottom: 10px;
+            margin-left: 4px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            margin-top: 4px;
         }
+
 
         #card-group-1,
         #card-group-2,
@@ -292,29 +308,19 @@
             flex-wrap: wrap;
         }
 
-        #select_btn{
-           border: 1px solid grey;
-            background-color: #f5f5f7;
-            color: black;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-bottom-right-radius: 5px;
-            border-bottom-left-radius: 5px;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
+        .card-body {
+            padding: 0px;
+        }
+
+        .card-title {
+            margin-bottom: 2px;
+            margin-top: 2px;
 
         }
-        #select_btn:hover{
-            color: white;
-            background-color: black;
-        }
-        .centerAlign {
+
+        .card-head {
             text-align: center;
-            font-weight: bold;
-        }
-
-        .card-body{
-            padding: 5px;
+            padding: 2px;
         }
     </style>
 </head>
@@ -323,12 +329,15 @@
 
 
 <div class="wrap">
-    <!--    <div class="card text-center">-->
-    <div class="card-body" style="text-align: center">
-        <h5 class="card-title">웹 메뉴판에서 </h5>
-        <h5 style="color: #ff0000; display: inline-block" >메뉴박스</h5><h5> 체크와</h5>
-        <h5 style="color: red; display: inline-block" > 수량</h5><h5>을 선택 후</h5><br>
-        <h5 class="card-text"> 직원에게 화면을 보여주면 선물을 드려요! </h5>
+    <div class="card-head">
+        <p></p>
+        <span><b>QR웹 메뉴판</b>을 사용해 보세요</span>
+{#        <span style="color: #ff0000; display: inline-block">메뉴박스</span>#}
+{#        <span> 원하는 메뉴의</span>#}<br>
+        <span style="color: red; display: inline-block">수량</span>
+        <span>선택 후 화면을 보여주면 선물을 드려요!</span>
+{#        <br>#}
+{#        <span class="card-text"> 직원에게 화면을 보여주면 선물을 드려요!</span>#}
         <p></p>
         <img src="http://hanshinpocha.com/wp-content/themes/hanshin/images/logo.png">
     </div>
@@ -357,11 +366,10 @@
                      src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/bce14148397725.58974a4bcd873.jpg"
                      height="307"
                      alt="Third slide"></div> <!-- / 슬라이드 쇼 끝 --> <!-- 왼쪽 오른쪽 화살표 버튼 -->
-            <a
-                    class="carousel-control-prev" href="#demo" data-slide="prev">
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
             <span class="carousel-control-prev-icon"
                   aria-hidden="true"></span>
-                <!-- <span>Previous</span> --> </a>
+            </a>
             <a class="carousel-control-next" href="#demo" data-slide="next"> <span
                     class="carousel-control-next-icon" aria-hidden="true"></span> <!-- <span>Next</span> -->
             </a>
@@ -376,56 +384,54 @@
         </p>
         <div id="container">
             <ul class="tab">
-                <li class="current" data-tab="tab1"><a href="#">대표메뉴</a></li>
-                <li data-tab="tab2"><a href="#">인기메뉴</a></li>
-                <li data-tab="tab3"><a href="#">메뉴텝3</a></li>
-                <li data-tab="tab4"><a href="#">주류</a></li>
+                <li class="current" data-tab="tab1"><a href="#"><b>대표메뉴</b></a></li>
+                <li data-tab="tab2"><a href="#"><b>인기메뉴</b></a></li>
+                <li data-tab="tab3"><a href="#"><b>전체메뉴</b></a></li>
+                <li data-tab="tab4"><a href="#"><b>주류</b></a></li>
             </ul>
 
             <div id="tab1" class="tabcontent current">
-                <h4>사장님이 강력추천!</h4>
 
                 <div id="card-group-1">
                 </div>
             </div>
 
             <div id="tab2" class="tabcontent">
-                <h4>인기메뉴 모음</h4>
 
                 <div id="card-group-2">
                 </div>
             </div>
 
             <div id="tab3" class="tabcontent">
-                <h4>메뉴카테고리 설명</h4>
                 <div id="card-group-3">
                 </div>
             </div>
 
             <div id="tab4" class="tabcontent">
-                <h4>오늘 처음처럼 한잔 어때?</h4>
-                <div id="card-group-4"></div>
+                <div id="card-group-4">
+
+                </div>
             </div>
         </div>
     </div>
-    <hr>
     <div style="text-align: center; margin-top: 15px">
-                        <button id="select_btn" onclick="value_check()">선택한 메뉴 직원에게 보여주기</button><br>
-        <div id="selectedMenuList"></div>
-
-                <span style="font-size: 25px"> 합계
-                    <input style="text-align: right" name="total_sum" type="text" size="15" readonly id="totalPrice"> 원
-                </span>
+        <div class="alert alert-secondary" role="alert">
+            <div><b>▼선택한 메뉴를 직원에게 보여주기▼</b></div>
+            <div id="selectedMenuList"></div>
+            <div style="font-size: 20px"><b>합계</b>
+                <input style="text-align: right; width: 120px" name="total_sum" type="text" size="15" readonly
+                       id="totalPrice"> <b>원</b>
+            </div>
+        </div>
     </div>
-    <br>
-    <img src="https://imgur.com/j6EvLkJ.jpg" width="100%">
+    <img src="https://imgur.com/jRJppfw.jpg" width="100%">
     <hr>
-    <div style="text-align: center; color:lightslategray; font-size: 13px"> WEB MENU SERVICE ⓒ2020 SMART ChopChop
-        all
-        rights reserved. <br>
-        <img src="https://postfiles.pstatic.net/MjAyMDA4MjJfMjky/MDAxNTk4MDg5NTA4MTUw.L5zv5K5xZ_y5WEXRgUP4-QlJES8GdewRjfcd89hTRfwg.0ydK47_ytwwbLBLRr4_sLGL6AvZiNu4haDGzySzdflUg.JPEG.sodjfl/logo(%EA%B0%80%EB%A1%9C).jpg?type=w773"
-             width="231" height="76">
+    <div style="text-align: center; color:lightslategray; font-size: 10px"> WEB MENU SERVICE ⓒ2020 SMART ChopChop
+        all rights reserved. <br>
+        <img src="https://imgur.com/XnDJWEK.jpeg"
+             width="150" height="40">
     </div>
+    <hr>
 </div>
 </div>
 </body>
