@@ -2,16 +2,17 @@
 <html lang="ko">
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9R6FK1GD34"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-9R6FK1GD34');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVGM1LEJ8T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EVGM1LEJ8T');
+    </script>
 
     <!-- Webpage Title -->
-    <title>Smart ChopChop 황포</title>
+    <title>Smart ChopChop 마실리아</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -62,30 +63,19 @@
             getMenuForTab(4);
             getMenuForTab(5);
             getMenuForTab(6);
-            getMenuForTab(7);
-            getMenuForTab(8)
-            getMenuForTab(9);
-            getMenuForTab(10);
-            getMenuForTab(11);
         })
         function getMenuForTab(tabNumber) {
             $.ajax({
                 type: 'GET',
-                url: `/api/menu/hwangpo?tab=${tabNumber}`,
+                url: `/api/menu/masillia?tab=${tabNumber}`,
                 data: {},
                 success: function (response) {
                     let menus = response["menus"]
                     for (let i = 0; i < menus.length; i++) {
                         let menu = menus[i]
-                        if (tabNumber == 7) {
-                            makeTableMenu(menu["menu"], menu["description"], menu["price"], tabNumber)
-                        } else if (tabNumber == 8) {
-                            makeTableMenu(menu["menu"], menu["description"], menu["price"], tabNumber)
-                        } else if (tabNumber == 9) {
+                        if (tabNumber == 5) {
                             makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
-                        } else if (tabNumber == 10) {
-                            makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
-                        } else if (tabNumber == 11) {
+                        } else if (tabNumber == 6) {
                             makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
                         } else {
                             makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
@@ -308,12 +298,7 @@
         #card-group-3,
         #card-group-4,
         #card-group-5,
-        #card-group-6,
-        #card-group-7,
-        #card-group-8,
-        #card-group-9,
-        #card-group-10,
-        #card-group-11
+        #card-group-6
         {
             display: flex;
             flex-wrap: wrap;
@@ -350,33 +335,34 @@
 <div class="wrap">
     <div class="card-head">
         <p></p>
-        <span><b>QR웹 메뉴판</b>을 사용해 보세요</span><br>
+        <span><b>QR웹 메뉴판</b>을 사용해 보세요</span>
+        <br><span> 원하는 메뉴의</span>
         <span style="color: red; display: inline-block">수량</span>
-        <span>선택 후 화면을 보여주면 선물을 드려요</span>
+        <span>선택 후 화면을 보여주세요</span>
+        <br>
         <p></p>
+        <img src="https://imgur.com/W4gfZYZ.jpg"
+             height="110"
+             width="120">
     </div>
+    <!--    </div>-->
     <P></P>
     <div>
         <img class="d-block w-100"
-             src="https://imgur.com/RzxTEbr.jpg"
+             src="https://imgur.com/QRvq8VB.jpg"
              height="170">
+        </div>
     </div>
-</div>
         <p>
         </p>
         <div id="container">
             <ul class="tab">
-                <li class="current" data-tab="tab1"><a href="#"><b>추천메뉴</b></a></li>
-                <li data-tab="tab2"><a href="#"><b>국물류</b></a></li>
-                <li data-tab="tab3"><a href="#"><b>튀김류</b></a></li>
-                <li data-tab="tab4"><a href="#"><b>볶음,부침</b></a></li>
-                <li data-tab="tab5"><a href="#"><b>웰빙안주</b></a></li>
-                <li data-tab="tab6"><a href="#"><b>사이드메뉴</b></a></li>
-                <li data-tab="tab7"><a href="#"><b>세트메뉴</b></a></li>
-                <li data-tab="tab8"><a href="#"><b>추가메뉴</b></a></li>
-                <li data-tab="tab9"><a href="#"><b>소주/과일소주</b></a></li>
-                <li data-tab="tab10"><a href="#"><b>맥주/기타</b></a></li>
-                <li data-tab="tab11"><a href="#"><b>음료</b></a></li>
+                <li class="current" data-tab="tab1"><a href="#"><b>식사류</b></a></li>
+                <li data-tab="tab2"><a href="#"><b>9,000원 안주</b></a></li>
+                <li data-tab="tab3"><a href="#"><b>12,000원 안주</b></a></li>
+                <li data-tab="tab4"><a href="#"><b>16,000원 안주</b></a></li>
+                <li data-tab="tab5"><a href="#"><b>주류,음료</b></a></li>
+                <li data-tab="tab6"><a href="#"><b>양주SET</b></a></li>
             </ul>
             <div id="tab1" class="tabcontent current">
                 <div id="card-group-1">
@@ -399,30 +385,12 @@
                 </div>
             </div>
              <div id="tab6" class="tabcontent">
+                 <div style="color: red; text-align: center; "><b> 선택 안주 1 + 음료 2병 포함 </b></div>
                 <div id="card-group-6">
                 </div>
             </div>
-            <div id="tab7" class="tabcontent">
-                <div id="card-group-7">
-                </div>
-            </div>
-            <div id="tab8" class="tabcontent">
-                <div id="card-group-8">
-                </div>
-            </div>
-            <div id="tab9" class="tabcontent">
-                <div id="card-group-9">
-                </div>
-            </div>
-             <div id="tab10" class="tabcontent">
-                <div id="card-group-10">
-                </div>
-            </div>
-             <div id="tab11" class="tabcontent">
-                <div id="card-group-11">
-                </div>
-            </div>
         </div>
+    </div>
     <div style="text-align: center; margin-top: 15px">
         <div class="alert alert-secondary" role="alert">
             <div><b>▼선택한 메뉴를 직원에게 보여주기▼</b></div>
@@ -434,7 +402,7 @@
             </div>
         </div>
     </div>
-    <img src="https://imgur.com/jRJppfw.jpg" width="100%">
+<!--    <img src="https://imgur.com/jRJppfw.jpg" width="100%">-->
     <hr>
     <div style="text-align: center; color:lightslategray; font-size: 10px"> WEB MENU SERVICE ⓒ2020 SMART ChopChop
         all rights reserved. <br>
@@ -442,5 +410,7 @@
              width="150" height="40">
     </div>
     <hr>
+</div>
+</div>
 </body>
 </html>

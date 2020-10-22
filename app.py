@@ -3,7 +3,12 @@ from pymongo import MongoClient
 
 app=Flask(__name__)
 
-client=MongoClient('localhost', 27017)
+client=MongoClient('mongodb://test:test@3.34.188.105', 27017)
+# 서버에 연결해서 화면을 보고 싶을때
+
+# client = MongoClient("localhost", 27017)
+#내 컴퓨터에서 보고 싶을때
+
 db=client.dbproject
 
 
@@ -12,13 +17,18 @@ db=client.dbproject
 def home():
     return render_template('index.html')
 
-@app.route('/burgerking')
-def burgerking_home():
-    return render_template('burgerking.html')
-
 @app.route('/hwangpo')
 def hwangpo_home():
-    return render_template('HwangPo.html')
+    return render_template('hwangpo.html')
+
+@app.route('/masillia')
+def masillia_home():
+    return render_template('masillia.html')
+
+@app.route('/talk')
+def talk_home():
+    return render_template('talk.html')
+
 
 
 ##아래는 api역할을 하는 부분
@@ -47,25 +57,36 @@ def add_menu():
     return jsonify({'result':'success', 'msg':'메뉴추가가 완료되었습니다.'})
 
 
-@app.route('/menu/burgerking', methods=['get'])
-def read_menus():
+@app.route('/api/menu/masillia', methods=['get'])
+def read_menus_masillia():
+    tab = int(request.args['tab'])
+
     # 1. DB에서 리뷰 정보 모두 가져오기 (근데 id 는 필요없어요  가 0 ㅇ의미)
-    menus=list(db.burgerKing.find({}, {'_id':0}))
+    menus=list(db.masillia.find({ 'tab': tab }, {'_id':0}))
     #1. 모든 메뉴s의 데이터를 가지고 온 후 list로 변환한다
     #2. 성공 메세지와 함께 리뷰를 내보낸다
-    # return jsonify({'result':'success', 'msg':'메뉴를 성공적으로 받아왔다!! 아오!!'})
     return jsonify({'result':'success', 'menus' :menus})
 
-@app.route('/api/menu/HwangPo', methods=['get'])
+@app.route('/api/menu/hwangpo', methods=['get'])
 def read_menus_hwangpo():
     tab = int(request.args['tab'])
 
     # 1. DB에서 리뷰 정보 모두 가져오기 (근데 id 는 필요없어요  가 0 ㅇ의미)
-    menus=list(db.HwangPo.find({ 'tab': tab }, {'_id':0}))
+    menus=list(db.hwangpo.find({ 'tab': tab }, {'_id':0}))
     #1. 모든 메뉴s의 데이터를 가지고 온 후 list로 변환한다
     #2. 성공 메세지와 함께 리뷰를 내보낸다
-    # return jsonify({'result':'success', 'msg':'메뉴를 성공적으로 받아왔다!! 아오!!'})
     return jsonify({'result':'success', 'menus' :menus})
+
+@app.route('/api/menu/talk', methods=['get'])
+def read_menus_talk():
+    tab = int(request.args['tab'])
+
+    # 1. DB에서 리뷰 정보 모두 가져오기 (근데 id 는 필요없어요  가 0 ㅇ의미)
+    menus=list(db.talk.find({ 'tab': tab }, {'_id':0}))
+    #1. 모든 메뉴s의 데이터를 가지고 온 후 list로 변환한다
+    #2. 성공 메세지와 함께 리뷰를 내보낸다
+    return jsonify({'result':'success', 'menus' :menus})
+
 
 if __name__=='__main__':
     app.run('0.0.0.0', port=5000, debug=True)
