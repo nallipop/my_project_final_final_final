@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+   <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SM366L4QT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
-        gtag('config', 'id=G-8SM366L4QT');
+        gtag('config', 'G-8SM366L4QT');
     </script>
 
     <!-- Webpage Title -->
@@ -196,6 +195,14 @@
         }
 
     </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#close').click(function() {
+        $('#pop').hide();
+        });
+        });
+    </script>
+
     <style type="text/css">
         html {
             overflow-x: hidden;
@@ -359,6 +366,12 @@
             width: 80px;
             height: 40px;
         }
+        #pop{
+            width:280px; height:400px; background:white;
+            position:absolute; top:60px; left:30px; text-align:center;
+            border:1px solid lightgrey;
+        }
+
     </style>
 </head>
 <body>
@@ -373,7 +386,7 @@
         <p></p>
         <img class="d-block w-100"
              src="https://imgur.com/t1x0IBb.jpg"
-             height="170">
+             height="150">
 
     </div>
 
@@ -436,7 +449,6 @@
         </div>
     </div>
 </div>
-<!--    <img src="https://imgur.com/jRJppfw.jpg" width="100%">-->
 <hr>
 <div style="text-align: center; color:lightslategray; font-size: 10px"> WEB MENU SERVICE ⓒ2020 SMART ChopChop
     all rights reserved. <br>
@@ -444,5 +456,13 @@
          width="150" height="40">
 </div>
 <hr>
+<div id="pop">
+    <div style="height:372px;">
+        <img src="https://imgur.com/pDFxiUR.jpg">
+     </div>
+    <div>
+        <div id="close" style="margin:auto;">닫기[x]</div>
+    </div>
+</div>
 </body>
 </html>

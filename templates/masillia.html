@@ -188,6 +188,14 @@
         }
 
     </script>
+       <script type="text/javascript">
+        $(document).ready(function() {
+        $('#close').click(function() {
+        $('#pop').hide();
+        });
+        });
+    </script>
+
     <style type="text/css">
         html {
             overflow-x: hidden;
@@ -329,6 +337,12 @@
             width: 80px;
             height: 40px;
         }
+        #pop{
+            width:280px; height:400px; background:white;
+            position:absolute; top:60px; left:30px; text-align:center;
+            border:1px solid lightgrey;
+        }
+
     </style>
 </head>
 <body>
@@ -360,7 +374,7 @@
                 <li class="current" data-tab="tab1"><a href="#"><b>식사류</b></a></li>
                 <li data-tab="tab2"><a href="#"><b>9,000원 안주</b></a></li>
                 <li data-tab="tab3"><a href="#"><b>12,000원 안주</b></a></li>
-                <li data-tab="tab4"><a href="#"><b>16,000원 안주</b></a></li>
+                <li data-tab="tab4"><a href="#"><b>16,000원~ 안주</b></a></li>
                 <li data-tab="tab5"><a href="#"><b>주류,음료</b></a></li>
                 <li data-tab="tab6"><a href="#"><b>양주SET</b></a></li>
             </ul>
@@ -402,7 +416,6 @@
             </div>
         </div>
     </div>
-<!--    <img src="https://imgur.com/jRJppfw.jpg" width="100%">-->
     <hr>
     <div style="text-align: center; color:lightslategray; font-size: 10px"> WEB MENU SERVICE ⓒ2020 SMART ChopChop
         all rights reserved. <br>
@@ -410,7 +423,14 @@
              width="150" height="40">
     </div>
     <hr>
+<div id="pop">
+    <div style="height:372px;">
+        <img src="https://imgur.com/pDFxiUR.jpg">
+     </div>
+    <div>
+        <div id="close" style="margin:auto;">닫기[x]</div>
+    </div>
 </div>
-</div>
+
 </body>
 </html>

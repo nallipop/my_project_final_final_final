@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://test:test@3.34.188.105', 27017)
+client = MongoClient('mongodb://test:test@3.35.251.121', 27017)
 # client = MongoClient("localhost", 27017)
 db = client.dbproject
 
@@ -246,6 +246,12 @@ data = [
         "tab": 3,
     },
     {
+        "menu": "미니과일",
+        "price": 12000,
+        "img": "https://imgur.com/7SkstJ4.jpg",
+        "tab": 3,
+    },
+    {
         "menu": "통골뱅이소면",
         "price": 16000,
         "img": "https://imgur.com/2jn3L5J.jpg",
@@ -306,6 +312,13 @@ data = [
         "tab": 4,
     },
     {
+        "menu": "계절과일",
+        "price": 24000,
+        "img": "https://imgur.com/EIJsZfY.jpg",
+        "tab": 4,
+    },
+
+    {
         "menu": "과일치즈 플래터",
         "price": 28000,
         "img": "https://imgur.com/vemYGzS.jpg",
@@ -337,11 +350,18 @@ data = [
         "tab": 5,
     },
     {
-        "menu": "참이슬 자두",
+        "menu": "자두에 이슬",
         "price": 5000,
         "img": "https://imgur.com/6fPCkCd.jpg",
         "tab": 5,
     },
+    {
+        "menu": "아이셔에 이슬",
+        "price": 5000,
+        "img": "https://imgur.com/JoqVUur.jpg",
+        "tab": 5,
+    },
+
     {
         "menu": "이슬톡톡",
         "price": 6000,
@@ -379,9 +399,9 @@ data = [
         "tab": 5,
     },
     {
-        "menu": "생맥주 500cc",
-        "price": 4500,
-        "img": "https://imgur.com/zDINDqu.jpg",
+        "menu": "생맥주 425cc",
+        "price": 4000,
+        "img": "https://imgur.com/hWKaajo.jpg",
         "tab": 5,
     },
     {

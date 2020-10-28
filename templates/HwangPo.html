@@ -198,6 +198,15 @@
         }
 
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#close').click(function() {
+        $('#pop').hide();
+        });
+        });
+    </script>
+
     <style type="text/css">
         html {
             overflow-x: hidden;
@@ -344,6 +353,12 @@
             width: 80px;
             height: 40px;
         }
+        #pop{
+            width:280px; height:400px; background:white;
+            position:absolute; top:60px; left:30px; text-align:center;
+            border:1px solid lightgrey;
+        }
+
     </style>
 </head>
 <body>
@@ -442,5 +457,14 @@
              width="150" height="40">
     </div>
     <hr>
+<!--<div id="pop">-->
+<!--    <div style="height:372px;">-->
+<!--        <img src="https://imgur.com/pDFxiUR.jpg">-->
+<!--     </div>-->
+<!--    <div>-->
+<!--        <div id="close" style="margin:auto;">닫기[x]</div>-->
+<!--    </div>-->
+<!--</div>-->
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://test:test@3.34.188.105', 27017)
+client = MongoClient('mongodb://test:test@3.35.251.121', 27017)
 # client = MongoClient("localhost", 27017)
 db = client.dbproject
 
@@ -114,7 +114,7 @@ data = [
         "tab": 2,
     },
     {
-        "menu": "모듬감자튀김",
+        "menu": "모둠감자튀김",
         "price": 9000,
         "img": "https://imgur.com/nLelNS7.jpg",
         "tab": 2,
@@ -276,6 +276,12 @@ data = [
         "tab": 3,
     },
     {
+        "menu": "미니과일",
+        "price": 12000,
+        "img": "https://imgur.com/FNRezVy.jpg",
+        "tab": 3,
+    },
+    {
         "menu": "소불고기전골",
         "price": 16000,
         "img": "https://imgur.com/bkmZ8cT.jpg",
@@ -348,6 +354,12 @@ data = [
         "tab": 4,
     },
     {
+        "menu": "계절과일",
+        "price": 24000,
+        "img": "https://imgur.com/ZAjfaZp.jpg",
+        "tab": 4,
+    },
+    {
         "menu": "처음처럼",
         "price": 5000,
         "img": "https://imgur.com/XZAmIxt.jpg",
@@ -373,9 +385,15 @@ data = [
         "tab": 5,
     },
     {
-        "menu": "참이슬 자두",
+        "menu": "자두에 이슬",
         "price": 5000,
         "img": "https://imgur.com/6fPCkCd.jpg",
+        "tab": 5,
+    },
+    {
+        "menu": "아이셔에 이슬",
+        "price": 5000,
+        "img": "https://imgur.com/JoqVUur.jpg",
         "tab": 5,
     },
     {
