@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5K1VPJCDH5"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-5K1VPJCDH5');
+        </script>
+
+    <!-- Webpage Title -->
+    <title>Smart ChopChop 건달포차</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <style> .carousel-inner > .carousel-item > img { /* width: 500x; height: 200px; */
+    } </style>
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('ul.tab li').click(function () {
+                var activeTab = $(this).attr('data-tab');
+                $('ul.tab li').removeClass('current');
+                $('.tabcontent').removeClass('current');
+                $(this).addClass('current');
+                $('#' + activeTab).addClass('current');
+            })
+        });
+    </script>
+
+    <script>
+        let data = {};
+        let total = 0;
+
+        $(document).ready(function () {
+            getMenuForTab(1);
+            getMenuForTab(2);
+            getMenuForTab(3);
+            getMenuForTab(4);
+            getMenuForTab(5);
+            getMenuForTab(6);
+            getMenuForTab(7);
+            getMenuForTab(8);
+            getMenuForTab(9);
+
+        })
+
+        function getMenuForTab(tabNumber) {
+            $.ajax({
+                type: 'GET',
+                url: `/api/menu/gundal?tab=${tabNumber}`,
+                data: {},
+                success: function (response) {
+                    let menus = response["menus"]
+                    for (let i = 0; i < menus.length; i++) {
+                        let menu = menus[i]
+                        if (tabNumber == 1) {
+                            makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
+                        } else if (tabNumber == 8) {
+                            makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
+                        } else if (tabNumber == 9) {
+                            makeMenu(menu["img"], menu["menu"], menu["description"], menu["price"], tabNumber)
+                        } else {
+                            makeTableMenu(menu["menu"], menu["description"], menu["price"], tabNumber)
+                        }
+                    }
+                }
+            })
+        }
+
+        function injectComma(number) {
+            // This function will inject comma to number
+            // so that it looks like real money!
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function makeMenu(img, menu, description, price, tabNumber) {
+            // 아래는 이미지가 포함된 불러오기 함수.
+            let tempHtml = `<div class="card">
+                        <img class="card-img-top"
+                             src="${img}"
+                             alt="Card image cap">
+                        <div class="card-body">
+                            <div style="font-size: 15px" class="card-title"><b>${menu}</b>
+                            <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;"></span><br>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <form name="form">
+                                <span style="font-size: 15px;"><b>${injectComma(price)} 원</b></span><br>
+                                <button type="button" class="minus" onclick="minusClick('${menu.replace(/\s/g, '')}', ${price})">-</button>
+                                <input type="number" id="numBox${menu.replace(/\s/g, '')}" class="numBox" min="0" value="0" readonly="readonly"/>
+                                <button type="button" class="plus" onclick="plusClick('${menu.replace(/\s/g, '')}', ${price})">+</button>
+                            </form>
+                        </div>
+                    </div>`
+            $(`#card-group-${tabNumber}`).append(tempHtml)
+        }
+
+        function makeTableMenu(menu, description, price, tabNumber) {
+            // 아래는 이미지가 없는 불러오기 함수
+            let tempHtml = `<div class="card">
+                        <div class="card-body">
+                            <div style="font-size: 15px" class="card-title"><b>${menu}</b>
+                            <input type="checkbox" name=${menu.replace(/\s/g, '')} value=${menu.replace(/\s/g, '')} onclick="showSelectedList()"> <span style="font-size: 12px;"></span><br>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <form name="form">
+                                <span style="font-size: 15px;"><b>${injectComma(price)} 원</b></span><br>
+                                <button type="button" class="minus" onclick="minusClick('${menu.replace(/\s/g, '')}', ${price})">-</button>
+                                <input type="number" id="numBox${menu.replace(/\s/g, '')}" class="numBox" min="0" value="0" readonly="readonly"/>
+                                <button type="button" class="plus" onclick="plusClick('${menu.replace(/\s/g, '')}', ${price})">+</button>
+                            </form>
+                        </div>
+                    </div>`
+            $(`#card-group-${tabNumber}`).append(tempHtml)
+        }
+
+        //아래는 플러스 마이너스 버튼 누를때 합계란에 금액이 계산 되도록 하는 함수
+        function plusClick(menu, price) {
+            let num = $(`#numBox${menu}`).val();
+            let plusNum = Number(num) + 1;
+
+            $(`#numBox${menu}`).val(plusNum);
+            total += price;
+            $('#totalPrice').val(injectComma(total));
+            data[menu] = price * plusNum;
+
+            $(`input:checkbox[name=${menu}]`).prop("checked", true);
+            showSelectedList()
+        }
+
+        function minusClick(menu, price) {
+            let num = $(`#numBox${menu}`).val();
+            let minusNum = Number(num) - 1;
+            if (minusNum === 0) {
+                total -= price
+                $(`#numBox${menu}`).val(0);
+                delete data[menu];
+                $(`input:checkbox[name=${menu}]`).prop("checked", false);
+            } else if (minusNum < 0) {
+                $(`#numBox${menu}`).val(0);
+                delete data[menu];
+                $(`input:checkbox[name=${menu}]`).prop("checked", false);
+            } else {
+                $(`#numBox${menu}`).val(minusNum);
+                total -= price
+                data[menu] = price * minusNum;
+                $(`input:checkbox[name=${menu}]`).prop("checked", true);
+            }
+            $('#totalPrice').val(injectComma(total));
+            showSelectedList()
+        }
+
+
+        // 체크박스를 누를 때마다 특정 요소에 텍스트를 추가하는 함수
+        function showSelectedList() {
+            let tempTotal = 0;
+            let selectedMenu = []
+
+            $('input[type="checkbox"]:checked').each(function (index, element) {
+                let menuName = $(this).attr('name')
+                let amount = $(`#numBox${menuName}`).val()
+                selectedMenu.push($(this).val() + ' : ' + amount + '개')
+                tempTotal += data[menuName]
+            });
+
+
+            $('#selectedMenuList').empty();
+            for (let i = 0; i < selectedMenu.length; i++) {
+                $('#selectedMenuList').append(`<div>${selectedMenu[i]}</div>`)
+            }
+
+            $('#totalPrice').val(injectComma(tempTotal));
+        }
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#close').click(function() {
+        $('#pop').hide();
+        });
+        });
+    </script>
+
+    <style type="text/css">
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        * {
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        h1,
+        h5 {
+            display: inline;
+        }
+
+        .wrap {
+            margin: auto;
+        }
+
+        #container {
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .tab {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Float the list items side by side */
+        .tab li {
+            float: left;
+        }
+
+        /* tab list */
+        .tab li a {
+            display: inline-block;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            padding: 14px 16px;
+            font-size: 12px;
+            transition: 0.3s;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            background-color: white;
+            padding: 12px 2px;
+            color: black;
+        }
+
+        ul.tab li.current {
+            background-color: lightgray;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .tabcontent.current {
+            display: block;
+        }
+
+        .card-footer {
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+            padding-left: 0.1px;
+            padding-right: 0.1px;
+            background-color: rgba(0, 0, 0, .03);
+            border-top: 1px solid rgba(0, 0, 0, .125);
+        }
+
+        .minus {
+            background-color: #f5f5f7;
+            border: 1px solid lightgrey;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+            width: 26px;
+            height: 26px;
+        }
+
+        .plus {
+            background-color: #f5f5f7;
+            border: 1px solid lightgrey;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+            width: 26px;
+            height: 26px;
+        }
+
+        .numBox {
+            width: 30px;
+            height: 26px;
+            border: 1px solid lightgrey;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .card {
+            width: 46%;
+            margin-left: 4px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            margin-top: 4px;
+        }
+
+        #card-group-1,
+        #card-group-2,
+        #card-group-3,
+        #card-group-4,
+        #card-group-5,
+        #card-group-6,
+        #card-group-7,
+        #card-group-8,
+        #card-group-9
+
+        {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card-body {
+            padding: 0px;
+        }
+
+        .card-title {
+            margin-bottom: 2px;
+            margin-top: 2px;
+        }
+
+        .card-head {
+            text-align: center;
+            padding: 2px;
+        }
+
+        .card .card-body input[type="checkbox"] {
+            display: none;
+        }
+
+        .reset {
+            background-color: #f5f5f7;
+            border: 1px solid lightgrey;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-size: 15px;
+            text-align: center;
+            width: 80px;
+            height: 40px;
+        }
+        #pop{
+            width:280px; height:400px; background:white;
+            position:absolute; top:60px; left:30px; text-align:center;
+            border:1px solid lightgrey;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="card-head">
+        <p></p>
+        <span><b>QR웹 메뉴판</b>을 사용해 보세요</span>
+        <br><span> 원하는 메뉴의</span>
+        <span style="color: red; display: inline-block">수량</span>
+        <span>선택 후 화면을 보여주세요</span>
+        <br>
+        <p></p>
+        <img src="https://imgur.com/DFsOfkD.jpg"
+             height="200">
+
+    </div>
+
+</div>
+<p>
+</p>
+<div id="container">
+    <ul class="tab">
+        <li class="current" data-tab="tab1"><a href="#"><b>건달 추천 메뉴</b></a></li>
+        <li data-tab="tab2"><a href="#"><b>국물 안주</b></a></li>
+        <li data-tab="tab3"><a href="#"><b>셀럽 Choice</b></a></li>
+        <li data-tab="tab4"><a href="#"><b>튀김&과일&마른안주</b></a></li>
+        <li data-tab="tab5"><a href="#"><b>볶음 안주</b></a></li>
+        <li data-tab="tab6"><a href="#"><b>가성비 안주</b></a></li>
+        <li data-tab="tab7"><a href="#"><b>식사류</b></a></li>
+        <li data-tab="tab8"><a href="#"><b>주류</b></a></li>
+        <li data-tab="tab9"><a href="#"><b>음료</b></a></li>
+
+
+    </ul>
+    <div id="tab1" class="tabcontent current">
+        <div id="card-group-1">
+        </div>
+    </div>
+    <div id="tab2" class="tabcontent">
+        <div id="card-group-2">
+        </div>
+    </div>
+    <div id="tab3" class="tabcontent">
+        <div id="card-group-3">
+        </div>
+    </div>
+    <div id="tab4" class="tabcontent">
+        <div id="card-group-4">
+        </div>
+    </div>
+    <div id="tab5" class="tabcontent">
+        <div id="card-group-5">
+        </div>
+    </div>
+    <div id="tab6" class="tabcontent">
+        <div id="card-group-6">
+        </div>
+    </div>
+    <div id="tab7" class="tabcontent">
+        <div id="card-group-7">
+        </div>
+    </div>
+    <div id="tab8" class="tabcontent">
+        <div id="card-group-8">
+        </div>
+    </div>
+    <div id="tab9" class="tabcontent">
+        <div id="card-group-9">
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 15px">
+    <div class="alert alert-secondary" role="alert">
+        <div><b>▼선택한 메뉴를 직원에게 보여주기▼</b></div>
+        <div id="selectedMenuList"></div>
+        <div style="font-size: 20px"><b>합계</b>
+            <input style="text-align: right; width: 120px" name="total_sum" type="text" size="15" readonly
+                   id="totalPrice"> <b>원</b>
+            <button class=reset onClick="window.location.reload()">초기화</button>
+        </div>
+    </div>
+</div>
+<hr>
+<div style="text-align: center; color:lightslategray; font-size: 10px"> WEB MENU SERVICE ⓒ2020 SMART ChopChop
+    all rights reserved. <br>
+    <img src="https://imgur.com/XnDJWEK.jpeg"
+         width="150" height="40">
+</div>
+<hr>
+<div id="pop">
+    <div style="height:372px;">
+        <img src="https://imgur.com/pDFxiUR.jpg">
+     </div>
+    <div>
+        <div id="close" style="margin:auto;">닫기[x]</div>
+    </div>
+</div>
+</body>
+</html>

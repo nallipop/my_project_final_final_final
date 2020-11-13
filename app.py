@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 app=Flask(__name__)
 
-client=MongoClient('mongodb://test:test@3.34.188.105', 27017)
+client=MongoClient('mongodb://test:test@3.35.251.121', 27017)
 # 서버에 연결해서 화면을 보고 싶을때
 
 # client = MongoClient("localhost", 27017)
@@ -29,6 +29,13 @@ def masillia_home():
 def talk_home():
     return render_template('talk.html')
 
+@app.route('/gundal')
+def gundal_home():
+    return render_template('gundal.html')
+
+@app.route('/prison')
+def prison_home():
+    return render_template('prison.html')
 
 
 ##아래는 api역할을 하는 부분
@@ -71,20 +78,28 @@ def read_menus_masillia():
 def read_menus_hwangpo():
     tab = int(request.args['tab'])
 
-    # 1. DB에서 리뷰 정보 모두 가져오기 (근데 id 는 필요없어요  가 0 ㅇ의미)
     menus=list(db.hwangpo.find({ 'tab': tab }, {'_id':0}))
-    #1. 모든 메뉴s의 데이터를 가지고 온 후 list로 변환한다
-    #2. 성공 메세지와 함께 리뷰를 내보낸다
     return jsonify({'result':'success', 'menus' :menus})
 
 @app.route('/api/menu/talk', methods=['get'])
 def read_menus_talk():
     tab = int(request.args['tab'])
 
-    # 1. DB에서 리뷰 정보 모두 가져오기 (근데 id 는 필요없어요  가 0 ㅇ의미)
     menus=list(db.talk.find({ 'tab': tab }, {'_id':0}))
-    #1. 모든 메뉴s의 데이터를 가지고 온 후 list로 변환한다
-    #2. 성공 메세지와 함께 리뷰를 내보낸다
+    return jsonify({'result':'success', 'menus' :menus})
+
+@app.route('/api/menu/gundal', methods=['get'])
+def read_menus_gundal():
+    tab = int(request.args['tab'])
+
+    menus=list(db.gundal.find({ 'tab': tab }, {'_id':0}))
+    return jsonify({'result':'success', 'menus' :menus})
+
+@app.route('/api/menu/prison', methods=['get'])
+def read_menus_prison():
+    tab = int(request.args['tab'])
+
+    menus=list(db.prison.find({ 'tab': tab }, {'_id':0}))
     return jsonify({'result':'success', 'menus' :menus})
 
 
